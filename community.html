@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邻里圈 - 邻帮互助</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .community-hero {
+            background: linear-gradient(135deg, #ff6b6b 0%, #4a90e2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .community-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .create-post-btn {
+            display: inline-block;
+            background: white;
+            color: #4a90e2;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        
+        .create-post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .community-container {
+            padding: 3rem 0;
+        }
+        
+        .community-grid {
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+        }
+        
+        .post-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .post-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .post-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #4a90e2;
+            font-size: 1.2rem;
+        }
+        
+        .post-info h3 {
+            margin: 0 0 0.3rem 0;
+            color: #333;
+        }
+        
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        .post-content {
+            margin: 1rem 0;
+            line-height: 1.6;
+        }
+        
+        .post-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .post-tag {
+            background: #f0f8ff;
+            color: #4a90e2;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .post-actions {
+            display: flex;
+            gap: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .post-action {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #666;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        
+        .post-action:hover {
+            color: #4a90e2;
+        }
+        
+        .community-sidebar {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .sidebar-section {
+            margin-bottom: 2rem;
+        }
+        
+        .sidebar-section h3 {
+            color: #333;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #4a90e2;
+        }
+        
+        .neighbor-list {
+            list-style: none;
+        }
+        
+        .neighbor-item {
+            display: flex;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .neighbor-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .btn-follow {
+            margin-left: auto;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.3rem 0.8rem;
+            border-radius: 3px;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .btn-unfollow {
+            background: #ccc;
+        }
+        
+        .event-item {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .event-date {
+            color: #ff6b6b;
+            font-weight: bold;
+        }
+        
+        .no-posts {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .no-posts i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+        
+        .create-post-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 10px;
+            padding: 2rem;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;"><i class="fas fa-hands-helping"></i> 邻帮互助</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html" class="active"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 邻里圈头部 -->
+    <section class="community-hero">
+        <div class="container">
+            <h1>邻里圈</h1>
+            <p>分享生活，互帮互助，共建和谐社区</p>
+            <button class="create-post-btn" id="openCreatePost">
+                <i class="fas fa-plus-circle"></i> 发布动态
+            </button>
+        </div>
+    </section>
+
+    <main class="container community-container">
+        <div class="community-grid">
+            <!-- 主内容区：帖子列表 -->
+            <div class="community-main">
+                <h2 style="margin-bottom: 1.5rem; color: #333;">最新动态</h2>
+                
+                <!-- 帖子1 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="post-info">
+                            <h3>张阿姨</h3>
+                            <div class="post-meta">
+                                <i class="fas fa-map-marker-alt"></i> 阳光小区 · 刚刚
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>家里有闲置的儿童自行车，7成新，适合5-8岁孩子。免费送给需要的邻居，有需要的联系我！</p>
+                    </div>
+                    
+                    <div class="post-tags">
+                        <span class="post-tag">物品赠送</span>
+                        <span class="post-tag">儿童用品</span>
+                        <span class="post-tag">闲置处理</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-thumbs-up"></i> 12
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> 5
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> 分享
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 帖子2 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="post-info">
+                            <h3>李先生</h3>
+                            <div class="post-meta">
+                                <i class="fas fa-map-marker-alt"></i> 幸福里社区 · 2小时前
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>紧急求助！家里的猫咪从窗户跑出去了，白色英短，脖子上有红色项圈，名字叫"小白"。在3号楼附近走失，有看到的邻居请打我电话：138****1234，非常感谢！</p>
+                    </div>
+                    
+                    <div class="post-tags">
+                        <span class="post-tag">宠物走失</span>
+                        <span class="post-tag">紧急求助</span>
+                        <span class="post-tag">寻物启事</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-thumbs-up"></i> 28
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> 9
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> 分享
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 帖子3 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <i class="fas fa-user-graduate"></i>
+                        </div>
+                        <div class="post-info">
+                            <h3>王同学</h3>
+                            <div class="post-meta">
+                                <i class="fas fa-map-marker-alt"></i> 大学城社区 · 昨天
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>周末想组织一个小区篮球友谊赛，地点在小区篮球场，时间周六下午3点。有想参加的邻居可以报名，无论水平如何，重在参与！</p>
+                    </div>
+                    
+                    <div class="post-tags">
+                        <span class="post-tag">体育活动</span>
+                        <span class="post-tag">社区活动</span>
+                        <span class="post-tag">篮球</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-thumbs-up"></i> 45
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> 15
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> 分享
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 帖子4 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="post-info">
+                            <h3>赵医生</h3>
+                            <div class="post-meta">
+                                <i class="fas fa-map-marker-alt"></i> 健康家园 · 2天前
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>本周六上午9-11点，在社区活动中心有免费的健康义诊活动。提供血压测量、健康咨询等服务，欢迎各位邻居前来参加！</p>
+                    </div>
+                    
+                    <div class="post-tags">
+                        <span class="post-tag">公益活动</span>
+                        <span class="post-tag">健康义诊</span>
+                        <span class="post-tag">社区服务</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-thumbs-up"></i> 67
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> 23
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> 分享
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 帖子5 -->
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-avatar">
+                            <i class="fas fa-utensils"></i>
+                        </div>
+                        <div class="post-info">
+                            <h3>美食家刘姐</h3>
+                            <div class="post-meta">
+                                <i class="fas fa-map-marker-alt"></i> 美食街社区 · 3天前
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="post-content">
+                        <p>分享一个超简单的家常菜谱：番茄炒蛋！<br>
+                        1. 鸡蛋打散，加少许盐<br>
+                        2. 番茄切块<br>
+                        3. 热油炒鸡蛋，盛出备用<br>
+                        4. 炒番茄至出汁，加入鸡蛋翻炒<br>
+                        5. 加糖、盐调味，出锅！<br>
+                        简单又美味，适合新手～
+                        </p>
+                    </div>
+                    
+                    <div class="post-tags">
+                        <span class="post-tag">美食分享</span>
+                        <span class="post-tag">菜谱</span>
+                        <span class="post-tag">生活技巧</span>
+                    </div>
+                    
+                    <div class="post-actions">
+                        <div class="post-action">
+                            <i class="far fa-thumbs-up"></i> 89
+                        </div>
+                        <div class="post-action">
+                            <i class="far fa-comment"></i> 34
+                        </div>
+                        <div class="post-action">
+                            <i class="fas fa-share"></i> 分享
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 侧边栏 -->
+            <div class="community-sidebar">
+                <!-- 热门邻居 -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-user-friends"></i> 热门邻居</h3>
+                    <ul class="neighbor-list">
+                        <li class="neighbor-item">
+                            <div class="neighbor-avatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div>
+                                <strong>社区达人王</strong>
+                                <div style="font-size: 0.85rem; color: #666;">156粉丝</div>
+                            </div>
+                            <button class="btn-follow">关注</button>
+                        </li>
+                        <li class="neighbor-item">
+                            <div class="neighbor-avatar">
+                                <i class="fas fa-user-tie"></i>
+                            </div>
+                            <div>
+                                <strong>维修李师傅</strong>
+                                <div style="font-size: 0.85rem; color: #666;">89粉丝</div>
+                            </div>
+                            <button class="btn-follow">关注</button>
+                        </li>
+                        <li class="neighbor-item">
+                            <div class="neighbor-avatar">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div>
+                                <strong>学霸张同学</strong>
+                                <div style="font-size: 0.85rem; color: #666;">67粉丝</div>
+                            </div>
+                            <button class="btn-follow">关注</button>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- 社区活动 -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-calendar-alt"></i> 近期活动</h3>
+                    <div class="event-item">
+                        <div class="event-date">5月25日 周六</div>
+                        <div>社区篮球友谊赛</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">5月26日 周日</div>
+                        <div>健康义诊活动</div>
+                    </div>
+                    <div class="event-item">
+                        <div class="event-date">6月1日 周六</div>
+                        <div>儿童节亲子活动</div>
+                    </div>
+                </div>
+                
+                <!-- 社区公告 -->
+                <div class="sidebar-section">
+                    <h3><i class="fas fa-bullhorn"></i> 社区公告</h3>
+                    <div style="font-size: 0.9rem; color: #666;">
+                        <p>1. 每月15日垃圾清运，请勿在楼道堆放垃圾</p>
+                        <p>2. 电梯维护：6月1日-2日，3号电梯暂停使用</p>
+                        <p>3. 物业费缴纳提醒：6月30日前</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 创建帖子模态框 -->
+    <div class="create-post-modal" id="createPostModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 style="margin: 0; color: #333;">发布新动态</h2>
+                <button class="close-modal" id="closeCreatePost">&times;</button>
+            </div>
+            
+            <form id="newPostForm">
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">动态内容 *</label>
+                    <textarea id="postContent" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 5px; height: 150px;" 
+                              placeholder="分享你的生活、求助信息、活动通知..."></textarea>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">添加标签</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                        <input type="text" id="postTags" style="flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;" 
+                               placeholder="用逗号分隔，如：求助,宠物,闲置">
+                    </div>
+                </div>
+                
+                <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button type="submit" style="flex: 1; background: #4a90e2; color: white; border: none; padding: 0.8rem; border-radius: 5px; cursor: pointer;">
+                        <i class="fas fa-paper-plane"></i> 发布
+                    </button>
+                    <button type="button" id="cancelPost" style="background: #ccc; color: #333; border: none; padding: 0.8rem 1.5rem; border-radius: 5px; cursor: pointer;">
+                        取消
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="../index.html">首页</a></li>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 帖子互动功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const likeButtons = document.querySelectorAll('.post-action:nth-child(1)');
+            const commentButtons = document.querySelectorAll('.post-action:nth-child(2)');
+            const followButtons = document.querySelectorAll('.btn-follow');
+            
+            // 点赞功能
+            likeButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const likeCount = this.querySelector('i').nextSibling;
+                    let count = parseInt(likeCount.textContent) || 0;
+                    
+                    if (this.classList.contains('liked')) {
+                        count--;
+                        this.classList.remove('liked');
+                        this.innerHTML = '<i class="far fa-thumbs-up"></i> ' + count;
+                    } else {
+                        count++;
+                        this.classList.add('liked');
+                        this.innerHTML = '<i class="fas fa-thumbs-up" style="color: #4a90e2;"></i> ' + count;
+                    }
+                    
+                    likeCount.textContent = count;
+                });
+            });
+            
+            // 评论功能
+            commentButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const post = this.closest('.post-card');
+                    const commentCount = this.querySelector('i').nextSibling;
+                    let count = parseInt(commentCount.textContent) || 0;
+                    
+                    const commentText = prompt('请输入您的评论：');
+                    if (commentText && commentText.trim() !== '') {
+                        count++;
+                        commentCount.textContent = count;
+                        alert('评论已发布！');
+                    }
+                });
+            });
+            
+            // 关注功能
+            followButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.classList.contains('following')) {
+                        this.classList.remove('following');
+                        this.textContent = '关注';
+                        this.style.background = '#4a90e2';
+                        alert('已取消关注');
+                    } else {
+                        this.classList.add('following');
+                        this.textContent = '已关注';
+                        this.style.background = '#ccc';
+                        alert('关注成功！');
+                    }
+                });
+            });
+            
+            // 发帖模态框
+            const openModalBtn = document.getElementById('openCreatePost');
+            const closeModalBtn = document.getElementById('closeCreatePost');
+            const cancelBtn = document.getElementById('cancelPost');
+            const modal = document.getElementById('createPostModal');
+            const newPostForm = document.getElementById('newPostForm');
+            
+            openModalBtn.addEventListener('click', function() {
+                // 检查是否登录
+                const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+                
+                if (!isLoggedIn) {
+                    if (confirm('您需要登录才能发布动态，是否前往登录页面？')) {
+                        window.location.href = 'login.html';
+                    }
+                    return;
+                }
+                
+                modal.style.display = 'flex';
+            });
+            
+            closeModalBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                modal.style.display = 'none';
+            });
+            
+            // 点击模态框外部关闭
+            modal.addEventListener('click', function(e) {
+                if (e.target === modal) {
+                    modal.style.display = 'none';
+                }
+            });
+            
+            // 发布新帖子
+            newPostForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const content = document.getElementById('postContent').value;
+                const tags = document.getElementById('postTags').value;
+                
+                if (!content.trim()) {
+                    alert('请输入动态内容');
+                    return;
+                }
+                
+                // 这里应该是实际的后端API调用
+                alert('动态发布成功！');
+                
+                // 清空表单
+                this.reset();
+                modal.style.display = 'none';
+                
+                // 刷新页面（在实际应用中应该动态添加新帖子）
+                setTimeout(() => {
+                    alert('页面将刷新以显示新发布的动态');
+                    location.reload();
+                }, 500);
+            });
+            
+            // 检查是否已登录，如果已登录但访问登录/注册页面则跳转
+            if (localStorage.getItem('userLoggedIn') === 'true') {
+                const currentPage = window.location.pathname;
+                if (currentPage.includes('login.html') || currentPage.includes('register.html')) {
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>

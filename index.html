@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>邻帮互助 - 便民服务平台</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a90e2;
+            --secondary-color: #7ed321;
+            --accent-color: #ff6b6b;
+            --text-color: #333;
+            --light-bg: #f5f7fa;
+            --white: #fff;
+		.scroll-container {
+			width: 100%;
+			/* 替换为你的背景图（本地/在线） */
+			background: url("your-bg.jpg") center/cover no-repeat; 
+			padding: 15px 0;
+			margin: 20px 0;
+			border-radius: 10px;
+			box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+			color: #fff; /* 文字白色，适配深色背景 */
+			}
+		.scroll-text {
+			font-size: 18px;
+			font-weight: 500;
+			white-space: nowrap;
+			animation: scrollLeft 20s linear infinite;
+			}
+		.scroll-text:hover {
+			animation-play-state: paused;
+		}
+		@keyframes scrollLeft {
+			0% { transform: translateX(100%); }
+			100% { transform: translateX(-100%); }
+		}
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><i class="fas fa-hands-helping"></i> 邻帮互助</h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html" class="active"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 轮播图 -->
+    <section class="hero-slider">
+        <div class="slider-container">
+            <div class="slide active">
+                <div class="slide-content">
+                    <h2>邻里互助，温暖社区</h2>
+                    <p>专业服务 · 技能共享 · 邻里交流</p>
+                    <a href="service.html" class="btn-primary">立即体验</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h2>闲置技能，创造价值</h2>
+                    <p>设计·辅导·维修·翻译，让才华被看见</p>
+                    <a href="skill.html" class="btn-primary">发布技能</a>
+                </div>
+            </div>
+            <div class="slide">
+                <div class="slide-content">
+                    <h2>同城互助，重建邻里情</h2>
+                    <p>从陌生邻居到互助好友</p>
+                    <a href="community.html" class="btn-primary">加入社区</a>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button class="prev-btn"><i class="fas fa-chevron-left"></i></button>
+                <button class="next-btn"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- 服务分类 -->
+    <section class="services-section">
+        <div class="container">
+            <h2 class="section-title">热门服务</h2>
+            
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-toolbox"></i>
+                    </div>
+                    <h3>家电维修</h3>
+                    <p>专业师傅上门，明码标价</p>
+                    <!-- 修改链接：跳转到 service.html 页面的 #repair 部分 -->
+                    <a href="service.html#repair" class="service-link">立即预约 →</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-broom"></i>
+                    </div>
+                    <h3>家政保洁</h3>
+                    <p>专业团队，深度清洁</p>
+                    <!-- 修改链接：跳转到 service.html 页面的 #clean 部分 -->
+                    <a href="service.html#clean" class="service-link">立即预约 →</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-running"></i>
+                    </div>
+                    <h3>跑腿代办</h3>
+                    <p>同城急事，随时响应</p>
+                    <!-- 修改链接：跳转到 service.html 页面的 #errand 部分 -->
+                    <a href="service.html#errand" class="service-link">立即预约 →</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-laptop-code"></i>
+                    </div>
+                    <h3>电脑维修</h3>
+                    <p>系统重装，硬件维修</p>
+                    <!-- 修改链接：跳转到 skill.html 页面 -->
+                    <a href="skill.html" class="service-link">立即预约 →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 技能展示 -->
+    <section class="skills-section">
+        <div class="container">
+            <h2 class="section-title">推荐技能</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <div class="skill-avatar">
+                        <img src="" alt="头像">
+                    </div>
+                    <div class="skill-info">
+                        <h4>王老师 · 英语辅导</h4>
+                        <p class="skill-tag"><i class="fas fa-map-marker-alt"></i> 距离1.2km</p>
+                        <p class="skill-price">¥50/小时</p>
+                    </div>
+                    <button class="btn-contact">联系TA</button>
+                </div>
+                <!-- 更多技能卡片 -->
+            </div>
+        </div>
+    </section>
+
+    <!-- 平台公告 -->
+    <section class="announcement-section">
+      <div class="container">
+        <h2 class="section-title"><i class="fas fa-bullhorn"></i> 平台公告</h2>
+        
+        <!-- 新增：滚动公告容器 -->
+        <div class="announcement-scroll-container">
+          <div class="announcement-scroll-content">
+            
+            <!-- 第一条公告 -->
+            <div class="announcement-item">
+              <span class="announcement-date">2024.05.20</span>
+              <span class="announcement-badge new">NEW</span>
+              <a href="#" class="announcement-title">平台用户突破10万，感谢支持！</a>
+            </div>
+            
+            <!-- 第二条公告 -->
+            <div class="announcement-item">
+              <span class="announcement-date">2024.05.18</span>
+              <a href="#" class="announcement-title">端午节特别活动：邻里包粽子大赛</a>
+            </div>
+            
+          </div>
+        </div>
+        
+      </div>
+    </section>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2026 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+    <script src="slider.js"></script>
+</body>
+</html>

@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>注册 - 邻帮互助</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .register-container {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .register-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 450px;
+            padding: 2.5rem;
+        }
+        
+        .register-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .register-header h2 {
+            color: #4a90e2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .register-header p {
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .input-with-icon input {
+            padding-left: 2.5rem;
+        }
+        
+        .verification-group {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .verification-input {
+            flex: 1;
+        }
+        
+        .btn-verification {
+            background: #7ed321;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.3s;
+        }
+        
+        .btn-verification:hover:not(:disabled) {
+            background: #6bc11c;
+        }
+        
+        .btn-verification:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        .agreement {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+        
+        .agreement input {
+            margin-top: 0.2rem;
+            margin-right: 0.5rem;
+        }
+        
+        .agreement label {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+        }
+        
+        .agreement a {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .agreement a:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-register {
+            width: 100%;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-register:hover {
+            background: #3a7bc8;
+        }
+        
+        .login-link {
+            text-align: center;
+            color: #666;
+        }
+        
+        .login-link a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #7ed321;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .password-strength {
+            margin-top: 0.5rem;
+            height: 5px;
+            border-radius: 2px;
+            background: #eee;
+            overflow: hidden;
+        }
+        
+        .strength-bar {
+            height: 100%;
+            width: 0;
+            transition: width 0.3s, background-color 0.3s;
+        }
+        
+        .strength-weak { width: 30%; background-color: #ff6b6b; }
+        .strength-medium { width: 60%; background-color: #ffb400; }
+        .strength-strong { width: 100%; background-color: #7ed321; }
+        
+        .password-hint {
+            font-size: 0.85rem;
+            color: #666;
+            margin-top: 0.5rem;
+        }
+        
+        .user-type-selector {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .user-type-option {
+            flex: 1;
+            text-align: center;
+            padding: 1rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .user-type-option:hover {
+            border-color: #4a90e2;
+        }
+        
+        .user-type-option.active {
+            border-color: #4a90e2;
+            background: #f0f8ff;
+        }
+        
+        .user-type-icon {
+            font-size: 1.5rem;
+            color: #4a90e2;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;"><i class="fas fa-hands-helping"></i> 邻帮互助</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 注册表单区域 -->
+    <section class="register-container">
+        <div class="register-box">
+            <div class="register-header">
+                <h2><i class="fas fa-user-plus"></i> 用户注册</h2>
+                <p>加入邻帮互助，开启互助生活</p>
+            </div>
+            
+            <!-- 用户类型选择 -->
+            <div class="user-type-selector">
+                <div class="user-type-option active" data-type="user">
+                    <div class="user-type-icon">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>普通用户</div>
+                    <small>寻求服务/发布需求</small>
+                </div>
+                <div class="user-type-option" data-type="provider">
+                    <div class="user-type-icon">
+                        <i class="fas fa-tools"></i>
+                    </div>
+                    <div>服务提供者</div>
+                    <small>提供服务/技能</small>
+                </div>
+            </div>
+            
+            <form id="registerForm">
+                <input type="hidden" id="userType" value="user">
+                
+                <div class="form-group">
+                    <label class="form-label">手机号 *</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-phone input-icon"></i>
+                        <input type="tel" class="form-input" id="phone" 
+                               placeholder="请输入手机号" maxlength="11" required>
+                    </div>
+                    <div class="error-message" id="phoneError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">验证码 *</label>
+                    <div class="verification-group">
+                        <div class="input-with-icon verification-input">
+                            <i class="fas fa-sms input-icon"></i>
+                            <input type="text" class="form-input" id="verificationCode" 
+                                   placeholder="请输入验证码" maxlength="6" required>
+                        </div>
+                        <button type="button" class="btn-verification" id="getVerificationCode">
+                            获取验证码
+                        </button>
+                    </div>
+                    <div class="error-message" id="codeError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">设置密码 *</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-input" id="password" 
+                               placeholder="请设置登录密码（6-20位）" required>
+                    </div>
+                    <div class="password-strength">
+                        <div class="strength-bar" id="passwordStrength"></div>
+                    </div>
+                    <div class="password-hint">密码应包含字母和数字，区分大小写</div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">确认密码 *</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-input" id="confirmPassword" 
+                               placeholder="请再次输入密码" required>
+                    </div>
+                    <div class="error-message" id="confirmPasswordError"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">昵称 *</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-user-circle input-icon"></i>
+                            <input type="text" class="form-input" id="nickname" 
+                                   placeholder="请输入昵称" required>
+                        </div>
+                        <div class="error-message" id="nicknameError"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">性别</label>
+                        <div class="input-with-icon">
+                            <i class="fas fa-venus-mars input-icon"></i>
+                            <select class="form-input" id="gender">
+                                <option value="">请选择性别</option>
+                                <option value="male">男</option>
+                                <option value="female">女</option>
+                                <option value="other">其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">所在小区/社区</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-map-marker-alt input-icon"></i>
+                        <input type="text" class="form-input" id="community" 
+                               placeholder="请输入您所在的小区或社区">
+                    </div>
+                </div>
+                
+                <div class="agreement">
+                    <input type="checkbox" id="agreeTerms" required>
+                    <label for="agreeTerms">
+                        我已阅读并同意
+                        <a href="#" onclick="showTerms()">《邻帮互助用户服务协议》</a>
+                        和
+                        <a href="#" onclick="showPrivacy()">《隐私政策》</a>
+                    </label>
+                </div>
+                <div class="error-message" id="agreementError"></div>
+                
+                <button type="submit" class="btn-register">
+                    <i class="fas fa-user-plus"></i> 立即注册
+                </button>
+                
+                <div class="success-message" id="registerSuccess"></div>
+            </form>
+            
+            <div class="login-link">
+                已有账号？<a href="login.html">立即登录</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 注册表单功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const registerForm = document.getElementById('registerForm');
+            const phoneInput = document.getElementById('phone');
+            const verificationCodeInput = document.getElementById('verificationCode');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const nicknameInput = document.getElementById('nickname');
+            const getCodeBtn = document.getElementById('getVerificationCode');
+            const userTypeOptions = document.querySelectorAll('.user-type-option');
+            const userTypeInput = document.getElementById('userType');
+            const agreementCheckbox = document.getElementById('agreeTerms');
+            
+            let countdown = 0;
+            let countdownInterval = null;
+            
+            // 用户类型选择
+            userTypeOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    userTypeOptions.forEach(opt => opt.classList.remove('active'));
+                    this.classList.add('active');
+                    userTypeInput.value = this.getAttribute('data-type');
+                });
+            });
+            
+            // 密码强度检测
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                const strengthBar = document.getElementById('passwordStrength');
+                let strength = 0;
+                
+                if (password.length >= 6) strength += 1;
+                if (/[a-z]/.test(password)) strength += 1;
+                if (/[A-Z]/.test(password)) strength += 1;
+                if (/\d/.test(password)) strength += 1;
+                if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+                
+                strengthBar.className = 'strength-bar';
+                if (password.length === 0) {
+                    strengthBar.style.width = '0';
+                } else if (strength <= 2) {
+                    strengthBar.className += ' strength-weak';
+                } else if (strength <= 3) {
+                    strengthBar.className += ' strength-medium';
+                } else {
+                    strengthBar.className += ' strength-strong';
+                }
+            });
+            
+            // 获取验证码
+            getCodeBtn.addEventListener('click', function() {
+                const phone = phoneInput.value.trim();
+                
+                if (!phone) {
+                    showError('phoneError', '请输入手机号');
+                    return;
+                }
+                
+                if (!/^1[3-9]\d{9}$/.test(phone)) {
+                    showError('phoneError', '请输入有效的手机号');
+                    return;
+                }
+                
+                // 模拟发送验证码
+                showSuccess('codeError', '验证码已发送至您的手机，请注意查收');
+                
+                // 开始倒计时
+                startCountdown(60);
+            });
+            
+            // 注册表单提交
+            registerForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 重置错误信息
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                    el.textContent = '';
+                });
+                
+                const phone = phoneInput.value.trim();
+                const code = verificationCodeInput.value.trim();
+                const password = passwordInput.value;
+                const confirmPassword = confirmPasswordInput.value;
+                const nickname = nicknameInput.value.trim();
+                const userType = userTypeInput.value;
+                const agree = agreementCheckbox.checked;
+                
+                let isValid = true;
+                
+                // 手机号验证
+                if (!phone) {
+                    showError('phoneError', '请输入手机号');
+                    isValid = false;
+                } else if (!/^1[3-9]\d{9}$/.test(phone)) {
+                    showError('phoneError', '请输入有效的手机号');
+                    isValid = false;
+                }
+                
+                // 验证码验证
+                if (!code) {
+                    showError('codeError', '请输入验证码');
+                    isValid = false;
+                } else if (!/^\d{6}$/.test(code)) {
+                    showError('codeError', '验证码为6位数字');
+                    isValid = false;
+                }
+                
+                // 密码验证
+                if (!password) {
+                    showError('passwordError', '请输入密码');
+                    isValid = false;
+                } else if (password.length < 6) {
+                    showError('passwordError', '密码长度至少6位');
+                    isValid = false;
+                } else if (!/(?=.*[a-zA-Z])(?=.*\d)/.test(password)) {
+                    showError('passwordError', '密码必须包含字母和数字');
+                    isValid = false;
+                }
+                
+                // 确认密码验证
+                if (password !== confirmPassword) {
+                    showError('confirmPasswordError', '两次输入的密码不一致');
+                    isValid = false;
+                }
+                
+                // 昵称验证
+                if (!nickname) {
+                    showError('nicknameError', '请输入昵称');
+                    isValid = false;
+                } else if (nickname.length < 2 || nickname.length > 20) {
+                    showError('nicknameError', '昵称长度2-20个字符');
+                    isValid = false;
+                }
+                
+                // 协议验证
+                if (!agree) {
+                    showError('agreementError', '请阅读并同意用户协议和隐私政策');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // 模拟注册成功
+                showSuccess('registerSuccess', '注册成功！正在跳转到登录页面...');
+                
+                // 保存用户信息到本地存储（模拟）
+                const userData = {
+                    phone: phone,
+                    nickname: nickname,
+                    userType: userType,
+                    registerTime: new Date().toISOString()
+                };
+                
+                // 在实际项目中，这里应该调用后端API
+                setTimeout(() => {
+                    // 跳转到登录页面
+                    window.location.href = 'login.html';
+                }, 2000);
+            });
+            
+            function showError(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+            
+            function showSuccess(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.textContent = message;
+                element.style.display = 'block';
+                
+                // 3秒后自动隐藏成功消息
+                setTimeout(() => {
+                    element.style.display = 'none';
+                }, 3000);
+            }
+            
+            function startCountdown(seconds) {
+                countdown = seconds;
+                getCodeBtn.disabled = true;
+                
+                updateCountdownButton();
+                
+                countdownInterval = setInterval(() => {
+                    countdown--;
+                    updateCountdownButton();
+                    
+                    if (countdown <= 0) {
+                        clearInterval(countdownInterval);
+                        getCodeBtn.disabled = false;
+                        getCodeBtn.textContent = '获取验证码';
+                    }
+                }, 1000);
+            }
+            
+            function updateCountdownButton() {
+                getCodeBtn.textContent = `${countdown}秒后重试`;
+            }
+            
+            // 检查是否已登录，如果已登录则跳转
+            if (localStorage.getItem('userLoggedIn') === 'true') {
+                setTimeout(() => {
+                    window.location.href = '../index.html';
+                }, 1000);
+            }
+        });
+        
+        // 显示用户协议
+        function showTerms() {
+            alert(`邻帮互助用户服务协议\n\n1. 用户注册成功后，将获得邻帮互助平台账号，用户应妥善保管账号及密码。\n2. 用户在使用平台服务时，应遵守相关法律法规，不得发布违法违规信息。\n3. 平台提供的信息发布、沟通交流等服务，用户应自行判断信息真实性。\n4. 用户应保证发布的信息真实有效，不得虚假宣传或欺诈。\n5. 详细协议内容请查看完整版用户服务协议。`);
+        }
+        
+        // 显示隐私政策
+        function showPrivacy() {
+            alert(`隐私政策\n\n1. 我们收集的信息包括您注册时提供的个人信息、使用服务时产生的数据等。\n2. 我们使用这些信息来提供、维护和改进我们的服务，以及开发新服务。\n3. 我们可能分享信息给合作的服务提供者，以完成您请求的服务。\n4. 我们采取合理的安全措施保护您的信息，防止未经授权的访问、修改、披露或破坏。\n5. 您有权访问、更正或删除您的个人信息。\n6. 详细隐私政策请查看完整版隐私政策文档。`);
+        }
+    </script>
+</body>
+</html>

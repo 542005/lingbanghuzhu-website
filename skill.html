@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能互助 - 邻帮互助</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .skill-hero {
+            background: linear-gradient(135deg, #7ed321 0%, #4a90e2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .skill-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-hero p {
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+        
+        .publish-skill-btn {
+            display: inline-block;
+            background: white;
+            color: #4a90e2;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .publish-skill-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .skills-container {
+            padding: 3rem 0;
+        }
+        
+        .skill-category {
+            margin: 2.5rem 0;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #7ed321;
+        }
+        
+        .category-icon {
+            font-size: 1.8rem;
+            color: #7ed321;
+            margin-right: 1rem;
+        }
+        
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .skill-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .skill-header {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .skill-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #4a90e2;
+        }
+        
+        .skill-info {
+            flex: 1;
+        }
+        
+        .skill-info h3 {
+            margin: 0 0 0.3rem 0;
+            color: #333;
+        }
+        
+        .skill-title {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.8rem 0;
+        }
+        
+        .tag {
+            background: #f0f8ff;
+            color: #4a90e2;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .skill-stats {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            padding-top: 1rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #4a90e2;
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .skill-price {
+            font-size: 1.3rem;
+            color: #ff6b6b;
+            font-weight: bold;
+            text-align: right;
+        }
+        
+        .skill-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 1rem 0;
+        }
+        
+        .btn-contact {
+            display: block;
+            width: 100%;
+            background: #7ed321;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-contact:hover {
+            background: #6bc11c;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .search-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .search-input {
+            flex: 1;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .search-btn {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #7ed321;
+            color: white;
+            border-color: #7ed321;
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 3rem;
+            color: #ddd;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;"><i class="fas fa-hands-helping"></i> 邻帮互助</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html" class="active"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 技能互助头部 -->
+    <section class="skill-hero">
+        <div class="container">
+            <h1>技能互助</h1>
+            <p>分享你的才华，学习他人技能，让知识流动起来</p>
+            <a href="#publish" class="publish-skill-btn">
+                <i class="fas fa-plus-circle"></i> 发布我的技能
+            </a>
+        </div>
+    </section>
+
+    <!-- 筛选区域 -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="search-bar">
+                <input type="text" class="search-input" placeholder="搜索技能（如：PPT设计、英语辅导、电脑维修）" id="skillSearch">
+                <button class="search-btn" onclick="searchSkills()">
+                    <i class="fas fa-search"></i> 搜索
+                </button>
+            </div>
+            
+            <div class="filter-group">
+                <span style="font-weight: bold;">技能分类：</span>
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <buclass="filter-btn" data-filter="design">设计创意</button>
+                <button class="filter-btn" data-filter="tech">技术开发</button>
+                <button class="filter-btn" data-filter="education">教育辅导</button>
+                <button class="filter-btn" data-filter="language">语言翻译</button>
+                <button class="filter-btn" data-filter="life">生活技能</button>
+                <button class="filter-btn" data-filter="other">其他</button>
+                
+                <div style="margin-left: auto;">
+                    <select id="sortSelect" style="padding: 0.5rem; border: 1px solid #ddd; border-radius: 5px;">
+                        <option value="distance">距离最近</option>
+                        <option value="price-low">价格最低</option>
+                        <option value="price-high">价格最高</option>
+                        <option value="rating">评分最高</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container skills-container">
+        <!-- 设计创意分类 -->
+        <div class="skill-category" id="design">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-palette"></i>
+                </div>
+                <h2>设计创意</h2>
+            </div>
+            
+            <div class="skills-grid">
+                <!-- 技能卡片1 -->
+                <div class="skill-card" data-category="design" data-distance="1.5" data-price="50" data-rating="4.8">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>王设计师</h3>
+                            <p class="skill-title">UI设计师 · 3年经验</p>
+                            <div class="skill-tags">
+                                <span class="tag">PPT设计</span>
+                                <span class="tag">海报设计</span>
+                                <span class="tag">LOGO设计</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        专业PPT美化、海报设计、LOGO设计。曾为多家企业设计宣传材料，注重细节与用户体验。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">128</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1.5km</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥50/页起</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('王设计师-PPT设计')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+                
+                <!-- 技能卡片2 -->
+                <div class="skill-card" data-category="design" data-distance="2.3" data-price="80" data-rating="4.9">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>李摄影师</h3>
+                            <p class="skill-title">人像摄影师 · 5年经验</p>
+                            <div class="skill-tags">
+                                <span class="tag">人像摄影</span>
+                                <span class="tag">照片精修</span>
+                                <span class="tag">活动跟拍</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        专业人像摄影、活动跟拍、照片后期精修。擅长捕捉自然瞬间，提供高质量摄影服务。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">89</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">2.3km</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥80/小时起</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('李摄影师-人像摄影')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+                
+                <!-- 技能卡片3 -->
+                <div class="skill-card" data-category="design" data-distance="0.8" data-price="30" data-rating="4.7">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-edit"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>张同学</h3>
+                            <p class="skill-title">美术专业学生</p>
+                            <div class="skill-tags">
+                                <span class="tag">手绘插画</span>
+                                <span class="tag">卡通头像</span>
+                                <span class="tag">表情包设计</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        美术专业在读，擅长手绘插画、卡通头像定制、表情包设计。风格可爱清新，价格实惠。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.7</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">45</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">800m</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥30/张起</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('张同学-手绘插画')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 技术开发分类 -->
+        <div class="skill-category" id="tech">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-laptop-code"></i>
+                </div>
+                <h2>技术开发</h2>
+            </div>
+            
+            <div class="skills-grid">
+                <!-- 技能卡片1 -->
+                <div class="skill-card" data-category="tech" data-distance="1.2" data-price="100" data-rating="4.9">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>陈工程师</h3>
+                            <p class="skill-title">全栈工程师 · 6年经验</p>
+                            <div class="skill-tags">
+                                <span class="tag">网页制作</span>
+                                <span class="tag">小程序开发</span>
+                                <span class="tag">系统维护</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        专业网站开发、小程序制作、系统维护。精通HTML/CSS/JS，可提供技术咨询和问题解决。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.9</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">156</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1.2km</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥100/小时</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('陈工程师-网页制作')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+                
+                <!-- 技能卡片2 -->
+                <div class="skill-card" data-category="tech" data-distance="3.1" data-price="60" data-rating="4.8">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-desktop"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>赵同学</h3>
+                            <p class="skill-title">计算机专业学生</p>
+                            <div class="skill-tags">
+                                <span class="tag">电脑维修</span>
+                                <span class="tag">系统安装</span>
+                                <span class="tag">软件调试</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        计算机专业在读，擅长电脑软硬件维修、系统安装优化、常用软件问题解决。上门服务。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.8</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">78</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">3.1km</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥60/次起</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('赵同学-电脑维修')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 教育辅导分类 -->
+        <div class="skill-category" id="education">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <h2>教育辅导</h2>
+            </div>
+            
+            <div class="skills-grid">
+                <!-- 技能卡片1 -->
+                <div class="skill-card" data-category="education" data-distance="0.5" data-price="50" data-rating="5.0">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>王老师</h3>
+                            <p class="skill-title">英语教师 · 8年经验</p>
+                            <div class="skill-tags">
+                                <span class="tag">英语辅导</span>
+                                <span class="tag">口语培训</span>
+                                <span class="tag">考研英语</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        专业英语教师，擅长中小学英语辅导、成人口语培训、考研英语。耐心细致，因材施教。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">5.0</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">203</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">500m</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥50/小时</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('王老师-英语辅导')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+                
+                <!-- 技能卡片2 -->
+                <div class="skill-card" data-category="education" data-distance="1.8" data-price="40" data-rating="4.7">
+                    <div class="skill-header">
+                        <div class="skill-avatar">
+                            <i class="fas fa-calculator"></i>
+                        </div>
+                        <div class="skill-info">
+                            <h3>李同学</h3>
+                            <p class="skill-title">数学专业研究生</p>
+                            <div class="skill-tags">
+                                <span class="tag">数学辅导</span>
+                                <span class="tag">考研数学</span>
+                                <span class="tag">编程教学</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-description">
+                        数学专业研究生，擅长中小学数学辅导、考研数学、Python编程入门教学。讲解清晰易懂。
+                    </div>
+                    
+                    <div class="skill-stats">
+                        <div class="stat">
+                            <div class="stat-value">4.7</div>
+                            <div class="stat-label">评分</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">67</div>
+                            <div class="stat-label">服务次数</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">1.8km</div>
+                            <div class="stat-label">距离</div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-price">¥40/小时</div>
+                    
+                    <button class="btn-contact" onclick="contactSkill('李同学-数学辅导')">
+                        <i class="fas fa-comments"></i> 联系TA
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 发布技能表单 -->
+        <div class="skill-category" id="publish">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-plus-circle"></i>
+                </div>
+                <h2>发布我的技能</h2>
+            </div>
+            
+            <div class="skill-card" style="max-width: 600px; margin: 0 auto;">
+                <h3 style="margin-bottom: 1.5rem; color: #4a90e2;">分享你的才华，帮助他人</h3>
+                
+                <form id="publishSkillForm">
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">技能名称 *</label>
+                        <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;" 
+                               placeholder="例如：PPT设计、英语辅导、电脑维修" required>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">技能描述 *</label>
+                        <textarea style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; height: 100px;" 
+                                  placeholder="详细描述你的技能、经验和服务内容" required></textarea>
+                    </div>
+                    
+                    <div style="margin-bottom: 1rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">技能分类 *</label>
+                        <select style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;" required>
+                            <option value="">请选择分类</option>
+                            <option value="design">设计创意</option>
+                            <option value="tech">技术开发</option>
+                            <option value="education">教育辅导</option>
+                            <option value="language">语言翻译</option>
+                            <option value="life">生活技能</option>
+                            <option value="other">其他</option>
+                        </select>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">价格 *</label>
+                            <input type="text" style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;" 
+                                   placeholder="例如：50/小时" required>
+                        </div>
+                        <div>
+                            <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">服务范围</label>
+                            <select style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;">
+                                <option value="5">5公里内</option>
+                                <option value="10">10公里内</option>
+                                <option value="999">全城</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 1.5rem;">
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: bold;">技能标签</label>
+                        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+                            <input type="text" style="flex: 1; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px;" 
+                                   placeholder="添加标签（用逗号分隔）">
+                        </div>
+                    </div>
+                    
+                    <button type="submit" style="background: #7ed321; color: white; border: none; padding: 0.8rem 1.5rem; 
+                            border-radius: 5px; cursor: pointer; font-size: 1rem; width: 100%;">
+                        <i class="fas fa-paper-plane"></i> 发布技能
+                    </button>
+                </form>
+                
+                <p style="margin-top: 1rem; color: #666; font-size: 0.9rem; text-align: center;">
+                    发布前请确保已登录账号
+                </p>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 技能搜索和筛选功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const searchInput = document.getElementById('skillSearch');
+            const sortSelect = document.getElementById('sortSelect');
+            const skillCards = document.querySelectorAll('.skill-card');
+            
+            // 筛选按钮点击事件
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // 为当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterSkills(filter);
+                });
+            });
+            
+            // 搜索功能
+            searchInput.addEventListener('keyup', function(e) {
+                if (e.key === 'Enter') {
+                    searchSkills();
+                }
+            });
+            
+            // 排序功能
+            sortSelect.addEventListener('change', function() {
+                sortSkills(this.value);
+            });
+            
+            // 发布技能表单
+            const publishForm = document.getElementById('publishSkillForm');
+            if (publishForm) {
+                publishForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    // 检查是否登录
+                    const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+                    
+                    if (!isLoggedIn) {
+                        if (confirm('您需要登录才能发布技能，是否前往登录页面？')) {
+                            window.location.href = 'login.html';
+                        }
+                        return;
+                    }
+                    
+                    alert('技能发布成功！审核通过后将在平台上展示。');
+                    this.reset();
+                });
+            }
+            
+            function filterSkills(filterType) {
+                const searchTerm = searchInput.value.toLowerCase();
+                const hasSearchTerm = searchTerm.trim() !== '';
+                
+                skillCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const skillText = card.textContent.toLowerCase();
+                    
+                    // 检查是否满足筛选条件
+                    const categoryMatch = filterType === 'all' || category === filterType;
+                    const searchMatch = !hasSearchTerm || skillText.includes(searchTerm);
+                    
+                    if (categoryMatch && searchMatch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+                
+                // 显示/隐藏分类标题
+                document.querySelectorAll('.skill-category').forEach(category => {
+                    const categoryId = category.id;
+                    const hasVisibleCards = Array.from(category.querySelectorAll('.skill-card'))
+                        .some(card => card.style.display !== 'none');
+                    
+                    if (categoryId === 'publish') {
+                        // 发布表单始终显示
+                        category.style.display = 'block';
+                    } else if (filterType === 'all' || categoryId === filterType) {
+                        category.style.display = hasVisibleCards ? 'block' : 'none';
+                    } else {
+                        category.style.display = 'none';
+                    }
+                });
+            }
+            
+            function searchSkills() {
+                const searchTerm = searchInput.value.toLowerCase();
+                const activeFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                filterSkills(activeFilter);
+            }
+            
+            function sortSkills(sortBy) {
+                const skillContainers = document.querySelectorAll('.skills-grid');
+                
+                skillContainers.forEach(container => {
+                    const cards = Array.from(container.querySelectorAll('.skill-card'));
+                    
+                    cards.sort((a, b) => {
+                        if (sortBy === 'distance') {
+                            const distA = parseFloat(a.getAttribute('data-distance'));
+                            const distB = parseFloat(b.getAttribute('data-distance'));
+                            return distA - distB;
+                        } else if (sortBy === 'price-low') {
+                            const priceA = parseFloat(a.getAttribute('data-price'));
+                            const priceB = parseFloat(b.getAttribute('data-price'));
+                            return priceA - priceB;
+                        } else if (sortBy === 'price-high') {
+                            const priceA = parseFloat(a.getAttribute('data-price'));
+                            const priceB = parseFloat(b.getAttribute('data-price'));
+                            return priceB - priceA;
+                        } else if (sortBy === 'rating') {
+                            const ratingA = parseFloat(a.getAttribute('data-rating'));
+                            const ratingB = parseFloat(b.getAttribute('data-rating'));
+                            return ratingB - ratingA;
+                        }
+                        return 0;
+                    });
+                    
+                    // 清空容器并重新添加排序后的卡片
+                    cards.forEach(card => {
+                        container.appendChild(card);
+                    });
+                });
+            }
+            
+            // 初始显示所有技能
+            filterSkills('all');
+        });
+        
+        // 联系技能提供者
+        function contactSkill(skillName) {
+            // 检查是否登录
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                if (confirm('您需要登录才能联系技能提供者，是否前往登录页面？')) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+            
+            const message = prompt(`请填写您的需求（如：我想学习${skillName}）：`);
+            
+            if (message && message.trim() !== '') {
+                // 这里应该是实际的后端API调用
+                alert('消息已发送！对方会在24小时内回复您。');
+                
+                // 记录联系记录到本地存储（模拟）
+                const contacts = JSON.parse(localStorage.getItem('skillContacts') || '[]');
+                contacts.push({
+                    skill: skillName,
+                    message: message,
+                    date: new Date().toISOString(),
+                    status: '已发送'
+                });
+                localStorage.setItem('skillContacts', JSON.stringify(contacts));
+            }
+        }
+    </script>
+</body>
+</html>

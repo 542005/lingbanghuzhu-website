@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>便民服务 - 邻帮互助</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .service-hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        
+        .service-hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .service-category {
+            margin: 3rem 0;
+        }
+        
+        .category-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #4a90e2;
+        }
+        
+        .category-icon {
+            font-size: 1.8rem;
+            color: #4a90e2;
+            margin-right: 1rem;
+        }
+        
+        .providers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .provider-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .provider-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .provider-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        
+        .provider-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #f0f0f0;
+            margin-right: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .provider-info h3 {
+            margin: 0 0 0.2rem 0;
+            color: #333;
+        }
+        
+        .provider-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        
+        .tag {
+            background: #f0f8ff;
+            color: #4a90e2;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+        }
+        
+        .rating {
+            color: #ffb400;
+            margin: 0.5rem 0;
+        }
+        
+        .price {
+            font-size: 1.2rem;
+            color: #ff6b6b;
+            font-weight: bold;
+            margin: 0.5rem 0;
+        }
+        
+        .btn-book {
+            display: block;
+            width: 100%;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin-top: 1rem;
+            transition: background 0.3s;
+        }
+        
+        .btn-book:hover {
+            background: #3a7bc8;
+        }
+        
+        .service-details {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .filter-section {
+            background: #f8f9fa;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-btn {
+            padding: 0.5rem 1.5rem;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: #4a90e2;
+            color: white;
+            border-color: #4a90e2;
+        }
+        
+        .distance-filter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .distance-filter select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;"><i class="fas fa-hands-helping"></i> 邻帮互助</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html" class="active"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 服务页头部 -->
+    <section class="service-hero">
+        <div class="container">
+            <h1>便民服务</h1>
+            <p>专业师傅，明码标价，快速上门，让生活更简单</p>
+        </div>
+    </section>
+
+    <!-- 筛选区域 -->
+    <section class="filter-section">
+        <div class="container">
+            <div class="filter-group">
+                <span style="font-weight: bold;">服务类型：</span>
+                <button class="filter-btn active" data-filter="all">全部</button>
+                <button class="filter-btn" data-filter="repair">家电维修</button>
+                <button class="filter-btn" data-filter="clean">家政保洁</button>
+                <button class="filter-btn" data-filter="errand">跑腿代办</button>
+                <button class="filter-btn" data-filter="move">搬家服务</button>
+                <button class="filter-btn" data-filter="care">上门护理</button>
+                
+                <div class="distance-filter">
+                    <span>距离：</span>
+                    <select id="distanceSelect">
+                        <option value="3">3公里内</option>
+                        <option value="5" selected>5公里内</option>
+                        <option value="10">10公里内</option>
+                        <option value="999">全城</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main class="container">
+        <!-- 家电维修分类 -->
+        <div class="service-category" id="repair">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-toolbox"></i>
+                </div>
+                <h2>家电维修</h2>
+            </div>
+            
+            <div class="providers-grid">
+                <!-- 服务商1 -->
+                <div class="provider-card" data-category="repair" data-distance="2.5">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>李师傅</h3>
+                            <p style="color: #666; font-size: 0.9rem;">10年维修经验</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">空调维修</span>
+                        <span class="tag">冰箱维修</span>
+                        <span class="tag">洗衣机</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.8 (128评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离2.5km
+                    </p>
+                    
+                    <div class="price">¥50起</div>
+                    
+                    <div class="service-details">
+                        <p>专业维修各类家电，快速响应，提供3个月质保</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('李师傅-家电维修')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+                
+                <!-- 服务商2 -->
+                <div class="provider-card" data-category="repair" data-distance="1.8">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-user-cog"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>王师傅</h3>
+                            <p style="color: #666; font-size: 0.9rem;">8年维修经验</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">热水器</span>
+                        <span class="tag">油烟机</span>
+                        <span class="tag">微波炉</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">5.0 (89评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离1.8km
+                    </p>
+                    
+                    <div class="price">¥80起</div>
+                    
+                    <div class="service-details">
+                        <p>厨卫电器专业维修，提供备用机服务</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('王师傅-家电维修')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+                
+                <!-- 服务商3 -->
+                <div class="provider-card" data-category="repair" data-distance="3.2">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-tv"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>张师傅</h3>
+                            <p style="color: #666; font-size: 0.9rem;">电视维修专家</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">电视维修</span>
+                        <span class="tag">显示器</span>
+                        <span class="tag">投影仪</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.9 (156评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离3.2km
+                    </p>
+                    
+                    <div class="price">¥100起</div>
+                    
+                    <div class="service-details">
+                        <p>液晶电视、智能电视专业维修，提供上门检测</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('张师傅-电视维修')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 家政保洁分类 -->
+        <div class="service-category" id="clean">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-broom"></i>
+                </div>
+                <h2>家政保洁</h2>
+            </div>
+            
+            <div class="providers-grid">
+                <!-- 服务商1 -->
+                <div class="provider-card" data-category="clean" data-distance="1.5">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-user-tie"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>清洁之家</h3>
+                            <p style="color: #666; font-size: 0.9rem;">专业团队</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">日常保洁</span>
+                        <span class="tag">深度清洁</span>
+                        <span class="tag">开荒保洁</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.7 (203评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离1.5km
+                    </p>
+                    
+                    <div class="price">¥30/小时</div>
+                    
+                    <div class="service-details">
+                        <p>专业保洁团队，自带工具消毒液，3小时起订</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('清洁之家-家政保洁')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+                
+                <!-- 服务商2 -->
+                <div class="provider-card" data-category="clean" data-distance="2.8">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-spray-can"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>王阿姨</h3>
+                            <p style="color: #666; font-size: 0.9rem;">5年经验</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">厨房清洁</span>
+                        <span class="tag">卫生间清洁</span>
+                        <span class="tag">玻璃清洁</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.9 (178评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离2.8km
+                    </p>
+                    
+                    <div class="price">¥25/小时</div>
+                    
+                    <div class="service-details">
+                        <p>细心负责，擅长厨房卫生间深度清洁</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('王阿姨-家政保洁')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 跑腿代办分类 -->
+        <div class="service-category" id="errand">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-running"></i>
+                </div>
+                <h2>跑腿代办</h2>
+            </div>
+            
+            <div class="providers-grid">
+                <!-- 服务商1 -->
+                <div class="provider-card" data-category="errand" data-distance="0.8">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-bicycle"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>小陈跑腿</h3>
+                            <p style="color: #666; font-size: 0.9rem;">专业跑腿</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">文件取送</span>
+                        <span class="tag">快递代取</span>
+                        <span class="tag">药品购买</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.9 (312评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离800m
+                    </p>
+                    
+                    <div class="price">¥15起</div>
+                    
+                    <div class="service-details">
+                        <p>1小时内响应，同城急事优先处理</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('小陈跑腿-跑腿代办')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 搬家服务分类 -->
+        <div class="service-category" id="move">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-truck-moving"></i>
+                </div>
+                <h2>搬家服务</h2>
+            </div>
+            
+            <div class="providers-grid">
+                <!-- 服务商1 -->
+                <div class="provider-card" data-category="move" data-distance="4.2">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>安心搬家</h3>
+                            <p style="color: #666; font-size: 0.9rem;">专业团队</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">小型搬家</span>
+                        <span class="tag">家庭搬家</span>
+                        <span class="tag">办公室搬迁</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">4.8 (167评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离4.2km
+                    </p>
+                    
+                    <div class="price">¥200起</div>
+                    
+                    <div class="service-details">
+                        <p>提供打包、搬运、摆放一站式服务</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('安心搬家-搬家服务')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 上门护理分类 -->
+        <div class="service-category" id="care">
+            <div class="category-header">
+                <div class="category-icon">
+                    <i class="fas fa-user-nurse"></i>
+                </div>
+                <h2>上门护理</h2>
+            </div>
+            
+            <div class="providers-grid">
+                <!-- 服务商1 -->
+                <div class="provider-card" data-category="care" data-distance="1.2">
+                    <div class="provider-header">
+                        <div class="provider-avatar">
+                            <i class="fas fa-user-md"></i>
+                        </div>
+                        <div class="provider-info">
+                            <h3>李护士</h3>
+                            <p style="color: #666; font-size: 0.9rem;">执业护士</p>
+                        </div>
+                    </div>
+                    
+                    <div class="provider-tags">
+                        <span class="tag">老人护理</span>
+                        <span class="tag">血压测量</span>
+                        <span class="tag">用药指导</span>
+                    </div>
+                    
+                    <div class="rating">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <span style="color: #666; margin-left: 0.5rem;">5.0 (98评价)</span>
+                    </div>
+                    
+                    <p style="margin: 0.5rem 0;">
+                        <i class="fas fa-map-marker-alt"></i> 距离1.2km
+                    </p>
+                    
+                    <div class="price">¥80/小时</div>
+                    
+                    <div class="service-details">
+                        <p>专业护理，耐心细致，持证上岗</p>
+                    </div>
+                    
+                    <button class="btn-book" onclick="bookService('李护士-上门护理')">
+                        <i class="fas fa-calendar-check"></i> 立即预约
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="index.html">首页</a></li>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 服务筛选功能
+        document.addEventListener('DOMContentLoaded', function() {
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const distanceSelect = document.getElementById('distanceSelect');
+            const providerCards = document.querySelectorAll('.provider-card');
+            
+            // 筛选按钮点击事件
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    // 移除所有按钮的active类
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // 为当前点击的按钮添加active类
+                    this.classList.add('active');
+                    
+                    const filter = this.getAttribute('data-filter');
+                    filterProviders(filter);
+                });
+            });
+            
+            // 距离筛选事件
+            distanceSelect.addEventListener('change', function() {
+                const maxDistance = parseInt(this.value);
+                const currentFilter = document.querySelector('.filter-btn.active').getAttribute('data-filter');
+                filterProviders(currentFilter, maxDistance);
+            });
+            
+            function filterProviders(filterType, maxDistance = 5) {
+                providerCards.forEach(card => {
+                    const category = card.getAttribute('data-category');
+                    const distance = parseFloat(card.getAttribute('data-distance'));
+                    
+                    // 检查是否满足筛选条件
+                    const categoryMatch = filterType === 'all' || category === filterType;
+                    const distanceMatch = distance <= maxDistance;
+                    
+                    if (categoryMatch && distanceMatch) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            }
+            
+            // 初始显示所有5公里内的服务
+            filterProviders('all', 5);
+        });
+        
+        // 预约服务函数
+        function bookService(serviceName) {
+            // 检查是否登录
+            const isLoggedIn = localStorage.getItem('userLoggedIn') === 'true';
+            
+            if (!isLoggedIn) {
+                if (confirm('您需要登录才能预约服务，是否前往登录页面？')) {
+                    window.location.href = 'login.html';
+                }
+                return;
+            }
+            
+            // 模拟预约流程
+            const serviceTime = prompt(`请选择预约时间（如：明天上午10点）：\n服务：${serviceName}`);
+            
+            if (serviceTime) {
+                const serviceAddress = prompt('请输入服务地址：');
+                
+                if (serviceAddress) {
+                    const phone = prompt('请输入联系电话：');
+                    
+                    if (phone && /^1[3-9]\d{9}$/.test(phone)) {
+                        // 这里应该是实际的后端API调用
+                        alert(`预约成功！\n服务：${serviceName}\n时间：${serviceTime}\n地址：${serviceAddress}\n我们会尽快与您联系确认。`);
+                        
+                        // 记录预约到本地存储（模拟）
+                        const appointments = JSON.parse(localStorage.getItem('appointments') || '[]');
+                        appointments.push({
+                            service: serviceName,
+                            time: serviceTime,
+                            address: serviceAddress,
+                            phone: phone,
+                            date: new Date().toISOString(),
+                            status: '待确认'
+                        });
+                        localStorage.setItem('appointments', JSON.stringify(appointments));
+                    } else {
+                        alert('请输入有效的手机号码');
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>

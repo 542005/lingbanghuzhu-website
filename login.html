@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 - 邻帮互助</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="responsive.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .login-container {
+            min-height: calc(100vh - 200px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .login-box {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            padding: 2.5rem;
+        }
+        
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .login-header h2 {
+            color: #4a90e2;
+            margin-bottom: 0.5rem;
+        }
+        
+        .login-header p {
+            color: #666;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+        }
+        
+        .input-with-icon {
+            position: relative;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .input-with-icon input {
+            padding-left: 2.5rem;
+        }
+        
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .remember-me {
+            display: flex;
+            align-items: center;
+        }
+        
+        .remember-me input {
+            margin-right: 0.5rem;
+        }
+        
+        .forgot-password {
+            color: #4a90e2;
+            text-decoration: none;
+        }
+        
+        .forgot-password:hover {
+            text-decoration: underline;
+        }
+        
+        .btn-login {
+            width: 100%;
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 0.8rem;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 1.5rem;
+        }
+        
+        .btn-login:hover {
+            background: #3a7bc8;
+        }
+        
+        .social-login {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .social-login p {
+            color: #666;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .social-login p::before,
+        .social-login p::after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            width: 30%;
+            height: 1px;
+            background: #eee;
+        }
+        
+        .social-login p::before {
+            left: 0;
+        }
+        
+        .social-login p::after {
+            right: 0;
+        }
+        
+        .social-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+        
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        
+        .social-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .social-wechat {
+            background: #07C160;
+        }
+        
+        .social-qq {
+            background: #12B7F5;
+        }
+        
+        .social-weibo {
+            background: #E6162D;
+        }
+        
+        .register-link {
+            text-align: center;
+            color: #666;
+        }
+        
+        .register-link a {
+            color: #4a90e2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .error-message {
+            color: #ff6b6b;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .success-message {
+            color: #7ed321;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+            display: none;
+        }
+        
+        .demo-credentials {
+            background: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1.5rem;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .demo-credentials p {
+            margin: 0.5rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="logo">
+                <h1><a href="index.html" style="text-decoration: none; color: inherit;"><i class="fas fa-hands-helping"></i> 邻帮互助</a></h1>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="index.html"><i class="fas fa-home"></i> 首页</a></li>
+                <li><a href="service.html"><i class="fas fa-tools"></i> 便民服务</a></li>
+                <li><a href="skill.html"><i class="fas fa-lightbulb"></i> 技能互助</a></li>
+                <li><a href="community.html"><i class="fas fa-users"></i> 邻里圈</a></li>
+                <li><a href="login.html" class="active"><i class="fas fa-user"></i> 登录/注册</a></li>
+            </ul>
+            <div class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <!-- 登录表单区域 -->
+    <section class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <h2><i class="fas fa-sign-in-alt"></i> 用户登录</h2>
+                <p>登录后享受更多便民服务</p>
+            </div>
+            
+            <form id="loginForm">
+                <div class="form-group">
+                    <label class="form-label">手机号/用户名</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-user input-icon"></i>
+                        <input type="text" class="form-input" id="username" 
+                               placeholder="请输入手机号或用户名" required>
+                    </div>
+                    <div class="error-message" id="usernameError"></div>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">密码</label>
+                    <div class="input-with-icon">
+                        <i class="fas fa-lock input-icon"></i>
+                        <input type="password" class="form-input" id="password" 
+                               placeholder="请输入密码" required>
+                    </div>
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+                
+                <div class="form-options">
+                    <div class="remember-me">
+                        <input type="checkbox" id="remember">
+                        <label for="remember">记住我</label>
+                    </div>
+                    <a href="#" class="forgot-password">忘记密码？</a>
+                </div>
+                
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i> 登录
+                </button>
+                
+                <div class="success-message" id="loginSuccess"></div>
+            </form>
+            
+            <div class="social-login">
+                <p>其他登录方式</p>
+                <div class="social-buttons">
+                    <a href="#" class="social-btn social-wechat">
+                        <i class="fab fa-weixin"></i>
+                    </a>
+                    <a href="#" class="social-btn social-qq">
+                        <i class="fab fa-qq"></i>
+                    </a>
+                    <a href="#" class="social-btn social-weibo">
+                        <i class="fab fa-weibo"></i>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="register-link">
+                还没有账号？<a href="register.html">立即注册</a>
+            </div>
+            
+            <div class="demo-credentials">
+                <p><strong>演示账号（可直接登录体验）：</strong></p>
+                <p>用户名：demo_user 或 手机号：13800138000</p>
+                <p>密码：demo123</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 底部信息 -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3><i class="fas fa-hands-helping"></i> 邻帮互助</h3>
+                    <p>同城社区便民服务平台</p>
+                    <p>让邻里更近，让生活更暖</p>
+                </div>
+                <div class="footer-col">
+                    <h4>快速链接</h4>
+                    <ul>
+                        <li><a href="../index.html">首页</a></li>
+                        <li><a href="service.html">便民服务</a></li>
+                        <li><a href="skill.html">技能互助</a></li>
+                        <li><a href="community.html">邻里社区</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>联系我们</h4>
+                    <p><i class="fas fa-phone"></i> 400-123-4567</p>
+                    <p><i class="fas fa-envelope"></i> support@neighborhelp.com</p>
+                </div>
+                <div class="footer-col">
+                    <h4>关注我们</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-weixin"></i></a>
+                        <a href="#"><i class="fab fa-weibo"></i></a>
+                        <a href="#"><i class="fab fa-qq"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>© 2024 邻帮互助便民服务平台. 版权所有.</p>
+                <p>本作品使用AI工具辅助设计与开发</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script>
+        // 登录表单验证
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const rememberCheckbox = document.getElementById('remember');
+            
+            // 从本地存储加载记住的用户名
+            const savedUsername = localStorage.getItem('rememberedUsername');
+            if (savedUsername) {
+                usernameInput.value = savedUsername;
+                rememberCheckbox.checked = true;
+            }
+            
+            loginForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // 重置错误信息
+                document.querySelectorAll('.error-message').forEach(el => {
+                    el.style.display = 'none';
+                    el.textContent = '';
+                });
+                
+                const username = usernameInput.value.trim();
+                const password = passwordInput.value;
+                const remember = rememberCheckbox.checked;
+                
+                let isValid = true;
+                
+                // 用户名验证
+                if (!username) {
+                    showError('usernameError', '请输入手机号或用户名');
+                    isValid = false;
+                } else if (!/^1[3-9]\d{9}$/.test(username) && username.length < 3) {
+                    showError('usernameError', '请输入有效的手机号或用户名（至少3位）');
+                    isValid = false;
+                }
+                
+                // 密码验证
+                if (!password) {
+                    showError('passwordError', '请输入密码');
+                    isValid = false;
+                } else if (password.length < 6) {
+                    showError('passwordError', '密码长度至少6位');
+                    isValid = false;
+                }
+                
+                if (!isValid) return;
+                
+                // 模拟登录验证
+                if (validateLogin(username, password)) {
+                    // 显示成功消息
+                    showSuccess('loginSuccess', '登录成功！正在跳转...');
+                    
+                    // 如果勾选了"记住我"，保存用户名
+                    if (remember) {
+                        localStorage.setItem('rememberedUsername', username);
+                    } else {
+                        localStorage.removeItem('rememberedUsername');
+                    }
+                    
+                    // 保存登录状态
+                    localStorage.setItem('userLoggedIn', 'true');
+                    localStorage.setItem('currentUser', username);
+                    
+                    // 模拟登录成功后的跳转
+                    setTimeout(() => {
+                        // 检查是否有之前的页面需要跳转
+                        const returnUrl = localStorage.getItem('returnUrl') || '../index.html';
+                        localStorage.removeItem('returnUrl');
+                        window.location.href = returnUrl;
+                    }, 1500);
+                } else {
+                    showError('passwordError', '用户名或密码错误，请重试');
+                }
+            });
+            
+            function showError(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+            
+            function showSuccess(elementId, message) {
+                const element = document.getElementById(elementId);
+                element.textContent = message;
+                element.style.display = 'block';
+            }
+            
+            // 模拟登录验证函数
+            function validateLogin(username, password) {
+                // 演示账号
+                const demoAccounts = [
+                    { username: 'demo_user', password: 'demo123' },
+                    { username: '13800138000', password: 'demo123' },
+                    { username: 'test', password: 'test123' }
+                ];
+                
+                return demoAccounts.some(account => 
+                    (account.username === username || account.username === username) && 
+                    account.password === password
+                );
+            }
+            
+            // 忘记密码功能
+            document.querySelector('.forgot-password').addEventListener('click', function(e) {
+                e.preventDefault();
+                const phone = prompt('请输入注册手机号：');
+                
+                if (phone && /^1[3-9]\d{9}$/.test(phone)) {
+                    alert(`重置密码链接已发送至手机 ${phone}，请注意查收。\n（演示功能，实际项目中应调用短信接口）`);
+                } else if (phone) {
+                    alert('请输入有效的手机号码');
+                }
+            });
+            
+            // 检查是否已登录，如果已登录则跳转
+            if (localStorage.getItem('userLoggedIn') === 'true') {
+                const currentPage = window.location.pathname;
+                if (currentPage.includes('login.html') || currentPage.includes('register.html')) {
+                    setTimeout(() => {
+                        window.location.href = '../index.html';
+                    }, 1000);
+                }
+            }
+        });
+    </script>
+</body>
+</html>
